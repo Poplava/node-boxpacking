@@ -1,0 +1,4 @@
+node-growbinpack
+================
+
+Packing algorithm.
