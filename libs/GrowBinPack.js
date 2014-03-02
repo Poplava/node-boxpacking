@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-var GrowBinPack = function(nodes, options) {
+var GrowBinPack = function(blocks, options) {
     var defaults = {
         maxWidth: null,
         maxHeight: null
@@ -9,14 +9,13 @@ var GrowBinPack = function(nodes, options) {
     this.options = _.extend(options || {}, defaults);
 
     _.extend(this, {
-        root: {
-            x: 0,
-            y: 0,
-            w: 0,
-            h: 0
-        },
+        width: 0,
+        height: 0,
+        blocks: blocks || [],
         nodes: [],
-        list: []
+        list: [],
+        nodeIndex: 0,
+        growRightLast: 0
     });
 
     this.init();
@@ -24,9 +23,125 @@ var GrowBinPack = function(nodes, options) {
 
 _.extend(GrowBinPack.prototype, {
     init: function() {
-        console.log(this);
+        var self = this;
+
+        this.blocks.sort(function(a, b) {
+            return b.height - a.height;
+        });
+
+        _.each(this.blocks, function(block) {
+            self.fit(block);
+        });
+    },
+
+    pushList: function(block, x, y) {
+        this.list.push(_.extend({}, block, { x: x, y: y }));
+    },
+
+    createNode: function(x, y, height) {
+        this.nodes.push({
+            x: x,
+            y: y,
+            height: height,
+            index: this.nodeIndex++
+        });
+    },
+
+    fit: function(block) {
+        if (!this.findNode(block)) {
+            this.grow(block);
+        }
+    },
+
+    findNode: function(block) {
+        if (!this.nodes.length) return;
+
+        var self = this,
+            matches = _.filter(this.nodes, function(node) {
+                var nodeWidth = self.width - node.x;
+
+                return block.width === nodeWidth || block.height === node.height;
+            });
+
+        if (!matches.length) {
+            matches = _.filter(this.nodes, function(node) {
+                var nodeWidth = self.width - node.x;
+
+                return block.width <= nodeWidth || block.height <= node.height;
+            });
+        }
+
+        matches.sort(function(a, b) {
+            var aWidth = self.width - a.x,
+                bWidth = self.width - b.x;
+
+            return bWidth + b.height - aWidth - a.height;
+        });
+
+        if (!matches.length) return;
+
+        this.pasteToNode(matches[0], block);
+
+        return true;
+    },
+
+    grow: function(block) {
+        var targetWidth = this.width + block.width,
+            targetHeight = this.height + block.height;
+
+        if (targetWidth <= targetHeight) {
+            this.growRight(block);
+        } else {
+            this.growDown(block);
+        }
+    },
+
+    growRight: function(block) {
+        var x = this.width,
+            y = 0;
+
+        if (x > 0 && block.height < this.growRightLast) {
+            this.createNode(x, block.height, this.growRightLast - block.height);
+        }
+
+        this.width += block.width;
+        this.height = this.height < block.height ? block.height : this.height;
+        this.growRightLast = block.height;
+
+        this.pushList(block, x, y);
+    },
+
+    growDown: function(block) {
+        var x = 0,
+            y = this.height;
+
+        this.createNode(this.height, block.width, block.height);
+
+        this.height += block.height;
+        this.width = this.width < block.width ? block.width : this.width;
+
+        this.pushList(block, x, y);
+    },
+
+    pasteToNode: function(node, block) {
+        var nodeWidth = this.width - node.x,
+            dw = nodeWidth - block.width,
+            dh = node.height - block.height;
+
+        this.nodes = _.filter(this.nodes, function(a) {
+            return a.index !== node.index;
+        });
+
+        if (dw > 0) {
+            this.createNode(node.x + block.width, node.y, block.height);
+        }
+
+        if (dh > 0) {
+            this.createNode(node.x, node.y + block.height, dh);
+        }
+
+        this.pushList(block, node.x, node.y);
     }
 });
 
 module.exports = GrowBinPack;
-
