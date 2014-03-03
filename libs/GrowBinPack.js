@@ -23,15 +23,11 @@ var GrowBinPack = function(blocks, options) {
 
 _.extend(GrowBinPack.prototype, {
     init: function() {
-        var self = this;
-
         this.blocks.sort(function(a, b) {
             return b.height - a.height;
         });
 
-        _.each(this.blocks, function(block) {
-            self.fit(block);
-        });
+        _.each(this.blocks, this.fit.bind(this));
     },
 
     pushList: function(block, x, y) {
@@ -48,27 +44,28 @@ _.extend(GrowBinPack.prototype, {
     },
 
     fit: function(block) {
-        if (!this.findNode(block)) {
+        if (!this.findNode(block))
             this.grow(block);
-        }
     },
 
     findNode: function(block) {
         if (!this.nodes.length) return;
 
-        var self = this,
+        var self = this, elite,
             matches = _.filter(this.nodes, function(node) {
+                var nodeWidth = self.width - node.x;
+
+                return block.width <= nodeWidth && block.height <= node.height;
+            });
+
+        if (!matches.length) {
+            elite = _.filter(this.nodes, function(node) {
                 var nodeWidth = self.width - node.x;
 
                 return block.width === nodeWidth || block.height === node.height;
             });
 
-        if (!matches.length) {
-            matches = _.filter(this.nodes, function(node) {
-                var nodeWidth = self.width - node.x;
-
-                return block.width <= nodeWidth || block.height <= node.height;
-            });
+            if (elite.length) matches = elite;
         }
 
         matches.sort(function(a, b) {
@@ -89,20 +86,18 @@ _.extend(GrowBinPack.prototype, {
         var targetWidth = this.width + block.width,
             targetHeight = this.height + block.height;
 
-        if (targetWidth <= targetHeight) {
+        if (targetWidth <= targetHeight)
             this.growRight(block);
-        } else {
+        else
             this.growDown(block);
-        }
     },
 
     growRight: function(block) {
         var x = this.width,
             y = 0;
 
-        if (x > 0 && block.height < this.growRightLast) {
+        if (x > 0 && block.height < this.growRightLast)
             this.createNode(x, block.height, this.growRightLast - block.height);
-        }
 
         this.width += block.width;
         this.height = this.height < block.height ? block.height : this.height;
@@ -115,7 +110,7 @@ _.extend(GrowBinPack.prototype, {
         var x = 0,
             y = this.height;
 
-        this.createNode(this.height, block.width, block.height);
+        this.createNode(block.width, this.height, block.height);
 
         this.height += block.height;
         this.width = this.width < block.width ? block.width : this.width;
@@ -132,13 +127,11 @@ _.extend(GrowBinPack.prototype, {
             return a.index !== node.index;
         });
 
-        if (dw > 0) {
+        if (dw > 0)
             this.createNode(node.x + block.width, node.y, block.height);
-        }
 
-        if (dh > 0) {
+        if (dh > 0)
             this.createNode(node.x, node.y + block.height, dh);
-        }
 
         this.pushList(block, node.x, node.y);
     }
