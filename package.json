@@ -11,7 +11,9 @@
     "url": "git://github.com/Poplava/node-boxpack.git"
   },
   "keywords": [
-    "binpack", "boxpack", "packing algorithm"
+    "binpack",
+    "boxpack",
+    "packing algorithm"
   ],
   "author": "Igor Poplavsky <igor.poplava@gmail.com>",
   "license": "MIT",
