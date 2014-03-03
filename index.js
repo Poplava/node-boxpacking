@@ -1,1 +1,1 @@
-module.exports = require('./libs/GrowBinPack');
+module.exports = require('./lib/growing');
