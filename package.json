@@ -1,5 +1,5 @@
 {
-  "name": "boxpack",
+  "name": "boxpacking",
   "version": "0.0.1",
   "description": "Packing algorithm",
   "main": "index.js",
