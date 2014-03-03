@@ -1,6 +1,6 @@
 {
-  "name": "growbinpack",
-  "version": "0.0.0",
+  "name": "boxpack",
+  "version": "0.0.1",
   "description": "Packing algorithm",
   "main": "index.js",
   "scripts": {
@@ -8,18 +8,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Poplava/node-growbinpack.git"
+    "url": "git://github.com/Poplava/node-boxpack.git"
   },
   "keywords": [
-    "binpack"
+    "binpack", "boxpack", "packing algorithm"
   ],
-  "author": "Igor Poplavsky",
-  "license": "GPU",
+  "author": "Igor Poplavsky <igor.poplava@gmail.com>",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Poplava/node-growbinpack/issues"
+    "url": "https://github.com/Poplava/node-boxpack/issues"
   },
-  "homepage": "https://github.com/Poplava/node-growbinpack",
+  "homepage": "https://github.com/Poplava/node-boxpack",
   "dependencies": {
     "underscore": "^1.6.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">= 0.8.0"
   }
 }
