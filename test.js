@@ -1,11 +1,11 @@
-var G = require('./'),
-    nodes = [
-        { w: 100, h: 200 },
-        { w: 100, h: 20 },
-        { w: 10, h: 10 },
-        { w: 10, h: 200 },
-        { w: 40, h: 40 },
-        { w: 128, h: 128 }
+var boxpack = require('./'),
+    blocks = [
+        { width: 200, height: 200 },
+        { width: 100, height: 100 },
+        { width: 100, height: 100 },
+        { width: 100, height: 200 },
+        { width: 50, height: 50 },
+        { width: 10, height: 10 }
     ];
 
-console.log((new G(nodes)).list);
+console.log(boxpack(blocks));
