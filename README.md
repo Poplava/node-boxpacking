@@ -1,4 +1,4 @@
-node-growbinpack
+node-boxpacking
 ================
 
 Packing algorithm.
