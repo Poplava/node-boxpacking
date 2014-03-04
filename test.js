@@ -8,4 +8,4 @@ var boxpack = require('./'),
         { width: 10, height: 10 }
     ];
 
-console.log(boxpack(blocks));
+console.log(boxpack(blocks, {maxWidth: 200}));
