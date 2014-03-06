@@ -24,7 +24,12 @@
   "dependencies": {
     "underscore": "^1.6.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt-cli": "^0.1.13",
+    "grunt-mocha-test": "^0.9.4",
+    "grunt": "^0.4.2",
+    "grunt-contrib-jshint": "^0.8.0"
+  },
   "engines": {
     "node": ">= 0.8.0"
   }
