@@ -30,10 +30,17 @@ var pack = boxpacking(blocks);
 
 This will return into "pack" variable an object which contains a list of blocks with coordinates.
 
-Options:
+### Options:
 
+#### maxWidth
 
-Result:
+Result max width.
+
+#### maxHeight
+
+Result max height.
+
+### Result:
 
 ```javascript
 {
@@ -51,20 +58,20 @@ Result:
 }
 ```
 
-### list
+#### list
 
 An array of blocks
 
-### excludedBlocks
+#### excludedBlocks
 
 An array of blocks which excluded from result. It can happen when both maxWidth and maxHeight options are passed and
 algorithm couldn't fit some blocks.
 
-## width
+#### width
 
 Result width.
 
-## height
+#### height
 
 Result height.
 
