@@ -64,7 +64,7 @@ An array of blocks
 
 #### excludedBlocks
 
-An array of blocks which excluded from result. It can happen when both maxWidth and maxHeight options are passed and
+An array of blocks which excluded from result. It can happen when both ``maxWidth`` and ``maxHeight`` options are passed and
 algorithm couldn't fit some blocks.
 
 #### width
